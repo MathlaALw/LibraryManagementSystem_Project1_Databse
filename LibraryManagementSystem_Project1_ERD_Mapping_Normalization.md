@@ -28,3 +28,7 @@ member can provide multiple reviews, and a book may receive many reviews.
 
 
 --------------
+## ERD Diagram :
+
+![ERD Diagram](./image/LibraryManagementSystem.jpg)
+

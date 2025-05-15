@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="image\" />
     <Folder Include="PDF\" />
   </ItemGroup>
 
