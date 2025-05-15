@@ -32,3 +32,9 @@ member can provide multiple reviews, and a book may receive many reviews.
 
 ![ERD Diagram](./image/LibraryManagementSystem.jpg)
 
+--------------
+## Mapping of ERD to Relational Schema:
+
+![Mapping of ERD to Relational Schema](./image/LibraryManagementSystem_Mapping.jpg)
+
+--------------
