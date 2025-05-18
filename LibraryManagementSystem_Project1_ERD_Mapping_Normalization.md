@@ -258,7 +258,14 @@ member can provide multiple reviews, and a book may receive many reviews.
 
 ------------------------------------
 
+## Creating Database 
+```sql
+-- Create database 
+create database LibraryDatabase;
+
+-- use database
+use LibraryDatabase;
 
 
-
+```
 
