@@ -122,3 +122,135 @@ CREATE TABLE ReviewBook (
 
 
 --------------
+
+-- DML:Insert Data into Tables
+-- Library Table
+SELECT * FROM Library;
+INSERT INTO Library ( L_Name , Location , Establish_Year)
+VALUES 
+('Childrens Public Library','Muscat','1990'),
+('Sultan Qaboos cultural center library', 'Muscat','1995'),
+('Public Knowledge Library','Muscat','2000');
+
+-- Libraries Contact Number
+SELECT * FROM LibrariesContactNumber;
+INSERT INTO LibrariesContactNumber (L_ID, Contact_Number)
+VALUES
+(1,'24557890'),
+(1,'24559988'),
+(2,'24557891'),
+(3,'24557892'),
+(3,'24184752');
+
+-- Staff Table
+SELECT * FROM Staff;
+INSERT INTO Staff(FName , LName , Position , L_ID)
+VALUES
+('Salim','Al Bulushi','Librarian',1),
+('Fatima','Al Shamsi','Assistant Librarian',1),
+('Ahmed','Al Rashidi','Librarian',2),
+('Aisha','Al Busaidi','Assistant Librarian',2),
+('Khalid','Al Balushi','Librarian',3),
+('Layla','Al Shamsi','Assistant Librarian',3);
+
+-- StaffContactNumber Table
+
+SELECT * FROM StaffContactNumber;
+INSERT INTO StaffContactNumber (Staff_ID ,Contact_Number)
+VALUES
+(1,'92557890'),
+(1,'99554874'),
+(2,'92557891'),
+(2,'99887766'),
+(3,'92557892'),
+(4,'92557893'),
+(5,'92557894'),
+(5,'99663322'),
+(6,'92557895'),
+(6,'95115995');
+
+-- Book Table
+
+SELECT * FROM Book;
+INSERT INTO Book (ISBN,Title,Genre,Price,Available_State,Shelf_Location,M_ID)
+VALUES 
+('978-3-16-148410-0','The Great Gatsby','Fiction',10.99,'TRUE','A1',1),
+('978-1-7432-7356-5','A Brief History of Time','Non-fiction',15.99,'TRUE','B2',1),
+('978-0-06-112008-4','To Kill a Mockingbird','Fiction',12.99,'TRUE','C3',2),
+('978-0-452-28423-4','The Catcher in the Rye','Children',9.99,'TRUE','D4',2),
+('978-0-7432-7356-5','The Art of War','Non-fiction',14.99,'FALSE','E5',3),
+('978-0-7432-7357-5','The Alchemist','Fiction',11.99,'TRUE','F6',3),
+('978-0-7432-7358-5','The Da Vinci Code','Reference',13.99,'TRUE','G7',1),
+('978-0-7432-7359-5','The Power of Habit','Non-fiction',16.99,'TRUE','H8',2),
+('978-0-7432-7360-5','The 7 Habits of Highly Effective People','Reference',18.99,'TRUE','I9',3),
+('978-0-7432-7361-5','The Fault in Our Stars','Fiction',10.99,'TRUE','K11',2),
+('978-0-7432-7362-5','The Hunger Games','Reference',12.99,'TRUE','L12',3),
+('978-0-7432-7363-5','The Book Thief','Children',11.99,'TRUE','M13',1);
+
+
+
+ALTER TABLE Book
+ALTER COLUMN Available_State VARCHAR(20);
+----
+
+ALTER TABLE Book
+DROP CONSTRAINT DF__Book__Available___49C3F6B7;
+
+----THEN --
+
+ALTER TABLE Book
+ALTER COLUMN Available_State VARCHAR(20);
+
+----THEN --
+
+ALTER TABLE Book
+ADD CONSTRAINT DF_Book_Available_State
+DEFAULT 'TRUE' FOR Available_State;
+
+-- Members Table
+
+SELECT * FROM Members;
+INSERT INTO Members ( FName ,LName ,Email ,Member_Start_Date)
+VALUES
+('Ali','Alfarsi','alialfarsi@gmail.com','2023-01-01'),
+('Noor','Alhatmi','nooralhatmi@gmail.com','2023-02-01'),
+('Sara','Alwahabi','saraalwahaibi@gmail.com','2023-03-01'),
+('Ahmed','Alnasri','ahmedalnasri@gmail.com','2023-04-01'),
+('Mohammed','Alrashdi','mohammedalrashdi@gmail.com','2023-05-01'),
+('Nasser','Alsalmi','nasseralsalmi@gmail.com','2023-06-01'),
+('Layla','Alqasmi','laylaalqasmi@gmail.com','2023-07-01');
+
+-- MembersPhoneNumber Table
+SELECT * FROM MembersPhoneNumber;
+INSERT INTO MembersPhoneNumber (M_ID,Phone_Number)
+VALUES
+(1,'92557890'),
+(1,'99554874'),
+(2,'92557891'),
+(2,'99887766'),
+(3,'92557892'),
+(3,'99663322'),
+(4,'92557893'),
+(5,'92557894'),
+(5,'99663322'),
+(6,'92557895'),
+(6,'95115995'),
+(7,'92557896');
+
+-- Loan Table
+
+SELECT * FROM Loan;
+
+
+INSERT INTO Loan (Due_Date,Return_Date,Status,Loan_Date,M_ID,Book_ID)
+values 
+('2023-01-20','2023-01-15','Returned','2023-01-10',1,30),
+('2023-01-25','2023-01-30','Issued','2023-01-15',2,31),
+('2023-02-10','2023-02-20','Overdue','2023-02-01',3,33),
+('2023-02-15','2023-02-20','Issued','2023-02-05',4,34),
+('2023-03-10','2023-03-15','Issued','2023-03-01',5,35),
+('2023-03-15','2023-03-20','Issued','2023-03-05',6,36);
+
+
+----- Payment Table
+SELECT * FROM Payment;
