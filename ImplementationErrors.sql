@@ -63,3 +63,111 @@ then
 ALTER TABLE Book
 ADD CONSTRAINT DF_Book_Available_State
 DEFAULT 'TRUE' FOR Available_State;
+
+--------
+--Testing Case--
+
+-- Errors in testing case -- 
+
+
+--DML - Delete and Update
+
+--Try deleting a member who: 
+-- • Has existing loans 
+DELETE FROM Members WHERE M_ID = 1;
+--Error --
+Msg 547, Level 16, State 0, Line 286
+The DELETE statement conflicted with the REFERENCE constraint "FK__ReviewBook__M_ID__6754599E". The conflict occurred in database "LibraryDatabase", table "dbo.ReviewBook", column 'M_ID'.
+
+--Solve --
+You cant delete a member who has active loans
+
+-- • Has written book reviews
+DELETE FROM Members WHERE M_ID = 2;
+-- Error --
+Msg 547, Level 16, State 0, Line 288
+The DELETE statement conflicted with the REFERENCE constraint "FK__ReviewBook__M_ID__6754599E". The conflict occurred in database "LibraryDatabase", table "dbo.ReviewBook", column 'M_ID'.
+-- Solve --
+You cant delete a member who has active loans
+
+--Try deleting a book that: 
+-- • Is currently on loan 
+DELETE FROM Book WHERE Book_ID = 30;
+-- Error --
+Msg 547, Level 16, State 0, Line 306
+The DELETE statement conflicted with the REFERENCE constraint "FK__Loan__Book_ID__5EBF139D". The conflict occurred in database "LibraryDatabase", table "dbo.Loan", column 'Book_ID'.
+
+-- Solve --
+Foreign key conflict with Loan
+
+---• Has multiple reviews attached to it 
+DELETE FROM Book WHERE Book_ID = 30;
+-- Error --
+Msg 547, Level 16, State 0, Line 315
+The DELETE statement conflicted with the REFERENCE constraint "FK__Loan__Book_ID__5EBF139D". The conflict occurred in database "LibraryDatabase", table "dbo.Loan", column 'Book_ID'.
+The statement has been terminated.
+-- Solve --
+
+
+-- Try inserting a loan for: 
+INSERT INTO Loan (Book_ID, M_ID, Loan_Date) VALUES (30, 80, '2024-05-18');
+-- • A member who doesn’t exist 
+-- Error --
+Msg 515, Level 16, State 2, Line 324
+Cannot insert the value NULL into column 'Due_Date', table 'LibraryDatabase.dbo.Loan'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+
+
+
+-- • A book that doesn’t exist 
+INSERT INTO Loan (Book_ID, M_ID, Loan_Date) VALUES (30, 1, '2024-05-18');
+-- Error --
+Msg 515, Level 16, State 2, Line 334
+Cannot insert the value NULL into column 'Due_Date', table 'LibraryDatabase.dbo.Loan'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+
+
+
+--Try updating a book’s genre to: 
+-- • A value not included in your allowed genre list (e.g., 'Sci-Fi') 
+UPDATE Book SET Genre = 'Sci-Fi' WHERE Book_ID = 30;
+-- Error --
+Msg 547, Level 16, State 0, Line 344
+The UPDATE statement conflicted with the CHECK constraint "CK__Book__Genre__47DBAE45". The conflict occurred in database "LibraryDatabase", table "dbo.Book", column 'Genre'.
+The statement has been terminated.
+
+
+--Try inserting a payment with: 
+-- • A zero or negative amount 
+select * from Payment;
+INSERT INTO Payment (P_Date,Method,Loan_Date,M_ID,Book_ID,Amount)
+VALUES ('2023-01-10', 'Cash','2023-01-10',1, 30,0);
+-- Error --
+Msg 547, Level 16, State 0, Line 367
+The INSERT statement conflicted with the CHECK constraint "CK__Payment__Amount__693CA210". The conflict occurred in database "LibraryDatabase", table "dbo.Payment", column 'Amount'.
+
+
+-- • A missing payment method 
+INSERT INTO Payment (Amount, Method, M_ID) VALUES (10.00, NULL, 1);
+-- Error --
+
+Cannot insert the value NULL into column 'Method'.
+
+
+--Try inserting a review for: 
+-- • A book that does not exist 
+INSERT INTO ReviewBook (Book_ID, M_ID, Comments) VALUES (30, 1, 'Great book!');
+-- Error --
+Violation of PRIMARY KEY constraint 'PK__ReviewBo__A3A8E9A539D05CFC'. Cannot insert duplicate key in object 'dbo.ReviewBook'. The duplicate key value is (30, 1).
+
+
+
+-- • A member who was never registered 
+UPDATE Loan SET M_ID = 99 WHERE Loan_ID = 1;
+-- Error --
+Msg 207, Level 16, State 1, Line 390
+Invalid column name 'Loan_ID'.
+
+
+--Try updating a foreign key field (like MemberID in Loan) to a value that doesn’t exist. 
+
