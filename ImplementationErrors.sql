@@ -32,4 +32,34 @@ the meaning of ( ON DELETE NO ACTION )
 -- Cannot delete or update a parent row: a foreign key constraint fails.
 
 --------------------------------------------
+--2. Msg 245, Level 16, State 1, Line 175
+--Conversion failed when converting the varchar value 'Available' to data type bit.
 
+-- ANSWER -- 
+
+WE NEED TH CHANGE THE DATA TYPE OF AVAILABLE_STATUS
+
+ALTER TABLE Book
+ALTER COLUMN Available_State VARCHAR(40) DEFAULT 'TRUE';
+
+-- 2.1 Msg 5074, Level 16, State 1, Line 191
+The object 'DF__Book__Available___49C3F6B7' is dependent on column 'Available_State'.
+Msg 4922, Level 16, State 9, Line 191
+ALTER TABLE ALTER COLUMN Available_State failed because one or more objects access this column.
+
+
+-- answer -- 
+
+ALTER TABLE Book
+DROP CONSTRAINT DF__Book__Available___49C3F6B7;
+
+then 
+
+ALTER TABLE Book
+ALTER COLUMN Available_State VARCHAR(20);
+
+then 
+
+ALTER TABLE Book
+ADD CONSTRAINT DF_Book_Available_State
+DEFAULT 'TRUE' FOR Available_State;
