@@ -120,6 +120,9 @@ ADD Amount DECIMAL(10,2) CHECK (Amount > 0);
 UPDATE Payment
 SET Amount = 100.00;
 
+ALTER TABLE Library
+ADD TotalRevenue DECIMAL(10,2) CHECK (TotalRevenue > 0);
+
 ---------------
 -- ReviewBook Table
 CREATE TABLE ReviewBook (
@@ -291,6 +294,22 @@ VALUES
 (36,4,3,'Average book.','2023-04-01'),
 (37,4,4,'Great for beginners.','2023-04-05');
 
+
+--- LibraryBook
+INSERT INTO LibraryBook ( L_ID, Book_ID)
+VALUES
+(1,30),
+(1,31),
+(1,32),
+(1,33),
+(2,34),
+(2,35),
+(2,36),
+(2,37),
+(3,38),
+(3,39),
+(3,40),
+(3,41);
 ----------------------
 -- Testing Case -- 
 
